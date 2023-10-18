@@ -1,0 +1,94 @@
+﻿@model List<Category>
+
+@if(Model.Count == 0) 
+{
+    <div class="row">
+        <tbody>
+            @foreach (Category item in ViewBag.Categories)
+            {
+                <tr>
+                    <td>
+                        <img src="~/assets/images/@item.Image" style="width: 100px; height:100px; border-radius:5px; object-fit:cover;">
+                    </td>
+                    <td>
+                        @item.Name
+                    </td>
+
+                    <td>
+                        @item.IsMain
+                    </td>
+                    <td>
+                        @if (!item.IsDeactive)
+                        {
+                            <div class="badge bg-label-primary me-1">Active</div>
+                        }
+                        else
+                        {
+                            <div class="badge bg-label-danger me-1">Deactive</div>
+
+                        }
+                    </td>
+                    <td>
+                        <a asp-action="Detail" asp-route-id="@item.Id" class="btn btn-warning m-2 text-white">Detail</a>
+                        <a asp-action="Update" asp-route-id="@item.Id" class="btn btn-primary m-2">Update</a>
+                        @if (!item.IsDeactive /*aktivdise*/)
+                        {
+                            <a style="width:135px" asp-action="Activity" asp-route-id="@item.Id" class="btn btn-danger m-2">Deactivated</a>
+                        }
+                        else
+                        {
+                            <a style="width:135px" asp-action="Activity" asp-route-id="@item.Id" class="btn btn-success m-2">Activated</a>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </div>
+
+} 
+else 
+{
+    <div class="row">
+        <tbody>
+            @foreach (Category item in Model)
+            {
+                <tr>
+                    <td>
+                        <img src="~/assets/images/@item.Image" style="width: 100px; height:100px; border-radius:5px; object-fit:cover;">
+                    </td>
+                    <td>
+                        @item.Name
+                    </td>
+
+                    <td>
+                        @item.IsMain
+                    </td>
+                    <td>
+                        @if (!item.IsDeactive)
+                        {
+                            <div class="badge bg-label-primary me-1">Active</div>
+                        }
+                        else
+                        {
+                            <div class="badge bg-label-danger me-1">Deactive</div>
+
+                        }
+                    </td>
+                    <td>
+                        <a asp-action="Detail" asp-route-id="@item.Id" class="btn btn-warning m-2 text-white">Detail</a>
+                        <a asp-action="Update" asp-route-id="@item.Id" class="btn btn-primary m-2">Update</a>
+                        @if (!item.IsDeactive /*aktivdise*/)
+                        {
+                            <a style="width:135px" asp-action="Activity" asp-route-id="@item.Id" class="btn btn-danger m-2">Deactivated</a>
+                        }
+                        else
+                        {
+                            <a style="width:135px" asp-action="Activity" asp-route-id="@item.Id" class="btn btn-success m-2">Activated</a>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </div>
+
+}

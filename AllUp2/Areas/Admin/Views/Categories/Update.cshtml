@@ -1,0 +1,62 @@
+﻿@model Category
+<div class="row">
+    <div class="col-md-6 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Update Category</h4>
+
+                <form method="post" class="forms-sample" enctype="multipart/form-data">
+
+                    <div class="form-group mb-3">
+                        <label asp-for="Name"></label>
+                        <input asp-for="Name" class="form-control">
+                        <span class="text-danger" asp-validation-for="Name"></span>
+                    </div>
+                    @if (Model.IsMain)
+                    {
+                        <div class="form-group mb-3 " id="PhotoBox">
+                            <label asp-for="Photo"></label>
+                            <input  asp-for="Photo" class="form-control">
+                            <span class="text-danger" asp-validation-for="Photo"></span>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="mb-3" id="CatBox">
+                            <label class="form-label">Select Main Category</label>
+                            <select class="form-select" name="mainCatId">
+                                @foreach (Category maincat in ViewBag.MainCategories)
+                                {
+                                    if (Model.ParentId == maincat.Id)
+                                    {
+                                        <option selected value="@maincat.Id">@maincat.Name</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@maincat.Id">@maincat.Name</option>
+                                    }
+
+                                }
+
+
+                            </select>
+                        </div>
+                    }
+
+
+
+                    <button type="submit" class="btn btn-primary mr-2">Submit</button>
+                    <a asp-action="Index" class="btn btn-light">Cancel</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <partial name="_ValidationScriptsPartial" />
+
+}
+
+
+
+

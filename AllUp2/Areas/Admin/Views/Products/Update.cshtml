@@ -1,0 +1,217 @@
+﻿@model Product
+
+<div class="row">
+    <div class="col-md-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Update Product</h4>
+                <input type="hidden" id="productId" value="@Model.Id" />
+
+                <form method="post" class="forms-sample" enctype="multipart/form-data">
+                    <div class="my-images d-flex flex-wrap">
+                        @if (Model.ProductImages.Count != 1)
+                        {
+                            @foreach (ProductImage item in Model.ProductImages)
+                            {
+                                <div class="my-image d-flex flex-column" style="margin:20px">
+                                    <img src="~/assets/images/product/@item.Url" style="width:100px;height:100px" />
+                                    <a class="btn btn-danger text-white del-images">Delete</a>
+                                    <input type="hidden" value="@item.Id">
+                                </div>
+                            }
+                        }
+                        else
+                        {
+                            @foreach (ProductImage item in Model.ProductImages) //image 1 eded qalibsa
+                            {
+                                <div class="my-image d-flex flex-column" style="margin:20px">
+                                    <img src="~/assets/images/product/@item.Url" style="width:100px;height:100px" />
+                                   
+                                </div>
+                            }
+                        }
+
+                    </div>
+                    <div class="form-group mb-3">
+                        <label asp-for="Photos"></label>
+                        <input asp-for="Photos" class="form-control">
+                        <span class="text-danger" asp-validation-for="Photos"></span>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label asp-for="Name"></label>
+                        <input asp-for="Name" class="form-control">
+                        <span class="text-danger" asp-validation-for="Name"></span>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label asp-for="Price"></label>
+                        <input asp-for="Price" class="form-control">
+                        <span class="text-danger" asp-validation-for="Price"></span>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label asp-for="OldPrice"></label>
+                        <input asp-for="OldPrice" class="form-control">
+                        <span class="text-danger" asp-validation-for="OldPrice"></span>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label asp-for="Rate"></label>
+                        <input asp-for="Rate" class="form-control">
+                        <span class="text-danger" asp-validation-for="Rate"></span>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label asp-for="ProductDetail.Description"></label>
+                        <input asp-for="ProductDetail.Description" class="form-control">
+                        <span class="text-danger" asp-validation-for="ProductDetail.Description"></span>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label asp-for="ProductDetail.ProductCode"></label>
+                        <input asp-for="ProductDetail.ProductCode" class="form-control">
+                        <span class="text-danger" asp-validation-for="ProductDetail.ProductCode"></span>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label asp-for="ProductDetail.Tax"></label>
+                        <input asp-for="ProductDetail.Tax" class="form-control">
+                        <span class="text-danger" asp-validation-for="ProductDetail.Tax"></span>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label asp-for="ProductDetail.hasStock"></label>
+                        <input asp-for="ProductDetail.hasStock">
+                        <span class="text-danger" asp-validation-for="ProductDetail.hasStock"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Select Brand</label>
+                        <select class="form-select" name="brandId">
+                            @foreach (Brand brand in ViewBag.Brands)
+                            {
+                                if (Model.BrandId != brand.Id)
+                                {
+                                    <option value="@brand.Id">@brand.Name</option>
+                                }
+                                else
+                                {
+                                    <option selected value="@brand.Id">@brand.Name</option>
+                                }
+
+                            }
+
+
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Select Tag</label>
+                        <select class="form-select" name="tagsId[]" multiple>
+                            @foreach (Tag tag in ViewBag.Tags)
+                            {
+                                if (Model.ProductTags.Any(x => x.TagId == tag.Id))
+                                {
+                                    <option selected value="@tag.Id">@tag.Name</option>
+
+                                }
+                                else
+                                {
+                                    <option value="@tag.Id">@tag.Name</option>
+
+                                }
+                            }
+
+
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Select Main Category</label>
+                        <select class="form-select" name="mainCatId" id="mainCat">
+                            @foreach (Category cat in ViewBag.MainCategories)
+                            {
+                                if (Model.ProductCategories.Any(x => x.CategoryId == cat.Id))
+                                {
+                                    <option selected value="@cat.Id">@cat.Name</option>
+
+                                }
+                                else
+                                {
+                                    <option value="@cat.Id">@cat.Name</option>
+
+                                }
+                            }
+
+
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Select Child Category</label>
+                        <select class="form-select" name="childCatId" id="childCat">
+                            @foreach (Category cat in ViewBag.ChildCategories)
+                            {
+                               if (Model.ProductCategories.Any(x => x.CategoryId == cat.Id))
+                                {
+                                    <option selected value="@cat.Id">@cat.Name</option>
+
+                                }
+                                else
+                                {
+                                    <option value="@cat.Id">@cat.Name</option>
+
+                                }
+                            }
+
+
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary mr-2">Submit</button>
+                    <a asp-action="Index" class="btn btn-light">Cancel</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+
+        $(document).on("change", "#mainCat", function () {
+            $.ajax({
+                url: "/Admin/Products/GetChildCategories/",
+                type: "get",
+                data: {
+                    "mainId": $("#mainCat").val()
+                },
+                success: function (res) {
+                    $("#childCat").empty()
+                    $("#childCat").append(res)
+
+                }
+            });
+        });
+    </script>
+    <script>
+
+        $(document).on("click", ".del-images", function () {
+            let clickedBTn = $(this)
+            $.ajax({
+                url: "/Admin/Products/DeleteImage/",
+                type: "get",
+                data: {
+                    "id": clickedBTn.next().val(),
+                    "productId": $("#productId").val()
+                },
+                success: function (res) {
+                    clickedBTn.parent().remove()
+                    if (res == 1) {
+                        $(".del-images").remove()
+                    }
+
+
+
+
+
+                }
+            });
+        });
+    </script>
+}
+
+
+
+
+
+
